@@ -15,8 +15,8 @@ public class Tabuleiro {
 		setTabuleiro(tabuleiro);
 	}
 	
-	public Setor getSetorHorizontal(int num) {	
-		return null;
+	public Setor getSetorHorizontal(int num) {			
+		return setores[num];
 	}
 	
 	/**
@@ -40,7 +40,7 @@ public class Tabuleiro {
 			aux[0] = this.tabuleiro[x][0];
 			aux[1] = this.tabuleiro[x][1];
 			aux[2] = this.tabuleiro[x][2];
-			setores[x] = new Setor(aux);
+			setores[x] = new Setor(x, aux);
 		}
 	}
 	

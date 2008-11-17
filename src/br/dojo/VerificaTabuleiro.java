@@ -5,7 +5,7 @@ import java.util.Set;
 
 public class VerificaTabuleiro {
 	private Tabuleiro tabuleiro;
-*
+
 	public VerificaTabuleiro(Tabuleiro tabuleiro){
 		this.tabuleiro = tabuleiro;
 	}
@@ -36,8 +36,8 @@ public class VerificaTabuleiro {
 			return false;
 		}
 		return true;
-	}
-
+	}	
+	
 	public boolean verificaLinhaTabuleiro(){
 		Quadrante[] q = new Quadrante[3];
 		int elemLinhas = 9;
@@ -45,7 +45,6 @@ public class VerificaTabuleiro {
 		for (int x=0; x<3; x++){
 			q[x] = tabuleiro.getTabuleiro()[0][x];
 		}
-
 
 		Set<Integer> set = new HashSet<Integer>();
 		for (int x=0; x<3; x++){
@@ -66,11 +65,10 @@ public class VerificaTabuleiro {
 				set.add(var3);
 		}
 		if (set.size() < elemLinhas) return false;
-
 		return true;
-	}
+	}	
 	
-	public boolean verificaColunaTabuleiro(){
+	/*public boolean verificaColunaTabuleiro(){
 		Quadrante[] q = new Quadrante[3];
 		int elemColunas = 9;
 
@@ -99,7 +97,7 @@ public class VerificaTabuleiro {
 		if (set.size() < elemColunas) return false;
 
 		return true;
-	}
+	}*/
 }
 
 
