@@ -3,12 +3,12 @@ package br.dojo;
 import java.util.HashSet;
 import java.util.Set;
 
-public class VerificaLinha {
+public class VerificaLinhaEColuna {
 	
-	public VerificaLinha(Numero[] linha) throws LinhaInvalidaException{
+	public VerificaLinhaEColuna(Numero[] elementos) throws LinhaOuColunaInvalidaException{
 		Set<Numero> set = new HashSet<Numero>();
 		int qtd = 9;
-		for (Numero n: linha){
+		for (Numero n: elementos){
 			if (n == Numero.BRANCO){
 				qtd--;
 			}else{
@@ -16,7 +16,7 @@ public class VerificaLinha {
 			}
 		}
 		if (qtd != set.size()){
-			throw new LinhaInvalidaException();
+			throw new LinhaOuColunaInvalidaException();
 		}
 	}
 }

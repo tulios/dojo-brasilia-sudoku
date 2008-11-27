@@ -28,4 +28,16 @@ public class Setor {
 		return linha;
 	}
 
+	public Numero[] getColuna(int numColuna) {
+		Numero[] coluna = new Numero[9];
+		int aux = 0;
+		
+		for(int x=0;x<3;x++){
+			coluna[aux++] = quadrantes[x].getValor()[0][numColuna];
+			coluna[aux++] = quadrantes[x].getValor()[1][numColuna];
+			coluna[aux++] = quadrantes[x].getValor()[2][numColuna];
+		}
+		return coluna;
+	}
+
 }

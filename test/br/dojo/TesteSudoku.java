@@ -444,9 +444,9 @@ public class TesteSudoku {
 		Assert.assertEquals(9, linha.length);
 		
 		try{
-			new VerificaLinha(linha);
+			new VerificaLinhaEColuna(linha);
 			
-		}catch(LinhaInvalidaException ex){
+		}catch(LinhaOuColunaInvalidaException ex){
 			Assert.fail("A linha está correta e o verificador" +
 						"está lançando exception!");
 		}
@@ -484,9 +484,9 @@ public class TesteSudoku {
 		Assert.assertEquals(9, linha.length);
 		
 		try{
-			new VerificaLinha(linha);
+			new VerificaLinhaEColuna(linha);
 			
-		}catch(LinhaInvalidaException ex){
+		}catch(LinhaOuColunaInvalidaException ex){
 			Assert.fail("A linha está correta e o verificador" +
 						"está lançando exception!");
 		}
@@ -524,14 +524,14 @@ public class TesteSudoku {
 		Assert.assertEquals(9, linha.length);
 		
 		try{
-			new VerificaLinha(linha);
+			new VerificaLinhaEColuna(linha);
 			Assert.fail("A Linha está incorreta");
-		}catch(LinhaInvalidaException ex){
+		}catch(LinhaOuColunaInvalidaException ex){
 		}
 	}
 	
 	@Test
-	public void verificaTodasAsLinhasDeUmSetor(){
+	public void verificaTodasAsLinhasCorretasDeUmSetor(){
 		//Preparaçao
 		Tabuleiro tab = new Tabuleiro();
 		
@@ -548,26 +548,26 @@ public class TesteSudoku {
 		n1[2][2] = Numero.NOVE;
 		      
 		Numero[][] n2 = new Numero[3][3];		
-		n2[0][0] = Numero.UM;
-		n2[0][1] = Numero.DOIS;
-		n2[0][2] = Numero.TRES;
-		n2[1][0] = Numero.QUATRO;
-		n2[1][1] = Numero.CINCO;
-		n2[1][2] = Numero.SEIS;
-		n2[2][0] = Numero.SETE;
-		n2[2][1] = Numero.OITO;
-		n2[2][2] = Numero.NOVE;
+		n2[0][0] = Numero.QUATRO;
+		n2[0][1] = Numero.CINCO;
+		n2[0][2] = Numero.SEIS;
+		n2[1][0] = Numero.SETE;
+		n2[1][1] = Numero.OITO;
+		n2[1][2] = Numero.NOVE;
+		n2[2][0] = Numero.UM;
+		n2[2][1] = Numero.DOIS;
+		n2[2][2] = Numero.TRES;
 
 		Numero[][] n3 = new Numero[3][3];		
-		n3[0][0] = Numero.UM;
-		n3[0][1] = Numero.DOIS;
-		n3[0][2] = Numero.TRES;
-		n3[1][0] = Numero.QUATRO;
-		n3[1][1] = Numero.CINCO;
-		n3[1][2] = Numero.SEIS;
-		n3[2][0] = Numero.SETE;
-		n3[2][1] = Numero.OITO;
-		n3[2][2] = Numero.NOVE;
+		n3[0][0] = Numero.SETE;
+		n3[0][1] = Numero.OITO;
+		n3[0][2] = Numero.NOVE;
+		n3[1][0] = Numero.UM;
+		n3[1][1] = Numero.DOIS;
+		n3[1][2] = Numero.TRES;
+		n3[2][0] = Numero.QUATRO;
+		n3[2][1] = Numero.CINCO;
+		n3[2][2] = Numero.SEIS;
 		
 		tab.getTabuleiro()[0][0].setValor(n1);
 		tab.getTabuleiro()[0][1].setValor(n2);
@@ -587,29 +587,379 @@ public class TesteSudoku {
 		
 		//passo cada linha para o verificaLinha
 		try{
-			new VerificaLinha(linha);
-			new VerificaLinha(linha1);
-			new VerificaLinha(linha2);
+			new VerificaLinhaEColuna(linha);
+			new VerificaLinhaEColuna(linha1);
+			new VerificaLinhaEColuna(linha2);
 			
-		}catch(LinhaInvalidaException ex){
+		}catch(LinhaOuColunaInvalidaException ex){
+			Assert.fail("A linha está correta e o verificador" +
+						"está lançando exception!");
+		}
+	}
+	
+	@Test
+	public void verificaTodasAsLinhasCertasComBrancosDeUmSetor(){
+		//Preparaçao
+		Tabuleiro tab = new Tabuleiro();
+		
+		//criando quadrantes completos
+		Numero[][] n1 = new Numero[3][3];		
+		n1[0][0] = Numero.UM;
+		n1[0][1] = Numero.DOIS;
+		n1[0][2] = Numero.TRES;
+		n1[1][0] = Numero.BRANCO;
+		n1[1][1] = Numero.CINCO;
+		n1[1][2] = Numero.SEIS;
+		n1[2][0] = Numero.SETE;
+		n1[2][1] = Numero.OITO;
+		n1[2][2] = Numero.BRANCO;
+		      
+		Numero[][] n2 = new Numero[3][3];		
+		n2[0][0] = Numero.QUATRO;
+		n2[0][1] = Numero.CINCO;
+		n2[0][2] = Numero.SEIS;
+		n2[1][0] = Numero.BRANCO;
+		n2[1][1] = Numero.OITO;
+		n2[1][2] = Numero.NOVE;
+		n2[2][0] = Numero.UM;
+		n2[2][1] = Numero.DOIS;
+		n2[2][2] = Numero.BRANCO;
+
+		Numero[][] n3 = new Numero[3][3];		
+		n3[0][0] = Numero.BRANCO;
+		n3[0][1] = Numero.OITO;
+		n3[0][2] = Numero.NOVE;
+		n3[1][0] = Numero.UM;
+		n3[1][1] = Numero.DOIS;
+		n3[1][2] = Numero.TRES;
+		n3[2][0] = Numero.QUATRO;
+		n3[2][1] = Numero.CINCO;
+		n3[2][2] = Numero.SEIS;
+		
+		tab.getTabuleiro()[0][0].setValor(n1);
+		tab.getTabuleiro()[0][1].setValor(n2);
+		tab.getTabuleiro()[0][2].setValor(n3);
+		
+		//Verificação
+		Setor setor = tab.getSetorHorizontal(0);
+		Assert.assertNotNull(setor);
+		
+		//verifico cada linha
+		Numero[] linha = setor.getLinha(0);
+		Assert.assertEquals(9, linha.length);
+		Numero[] linha1 = setor.getLinha(1);
+		Assert.assertEquals(9, linha1.length);
+		Numero[] linha2 = setor.getLinha(2);
+		Assert.assertEquals(9, linha2.length);
+		
+		//passo cada linha para o verificaLinha
+		try{
+			new VerificaLinhaEColuna(linha);
+			new VerificaLinhaEColuna(linha1);
+			new VerificaLinhaEColuna(linha2);
+			
+		}catch(LinhaOuColunaInvalidaException ex){
+			Assert.fail("A linha está correta e o verificador" +
+						"está lançando exception!");
+		}
+	}
+	
+	@Test
+	public void verificaTodasAsLinhasErradasDeUmSetor(){
+		//Preparaçao
+		Tabuleiro tab = new Tabuleiro();
+		
+		//criando quadrantes completos
+		Numero[][] n1 = new Numero[3][3];		
+		n1[0][0] = Numero.UM;
+		n1[0][1] = Numero.DOIS;
+		n1[0][2] = Numero.TRES;
+		n1[1][0] = Numero.QUATRO;
+		n1[1][1] = Numero.CINCO;
+		n1[1][2] = Numero.SEIS;
+		n1[2][0] = Numero.SETE;
+		n1[2][1] = Numero.OITO;
+		n1[2][2] = Numero.NOVE;
+		      
+		Numero[][] n2 = new Numero[3][3];		
+		n2[0][0] = Numero.UM;
+		n2[0][1] = Numero.CINCO;
+		n2[0][2] = Numero.SEIS;
+		n2[1][0] = Numero.SETE;
+		n2[1][1] = Numero.OITO;
+		n2[1][2] = Numero.NOVE;
+		n2[2][0] = Numero.UM;
+		n2[2][1] = Numero.DOIS;
+		n2[2][2] = Numero.TRES;
+
+		Numero[][] n3 = new Numero[3][3];		
+		n3[0][0] = Numero.SETE;
+		n3[0][1] = Numero.OITO;
+		n3[0][2] = Numero.NOVE;
+		n3[1][0] = Numero.UM;
+		n3[1][1] = Numero.DOIS;
+		n3[1][2] = Numero.TRES;
+		n3[2][0] = Numero.QUATRO;
+		n3[2][1] = Numero.CINCO;
+		n3[2][2] = Numero.SEIS;
+		
+		tab.getTabuleiro()[0][0].setValor(n1);
+		tab.getTabuleiro()[0][1].setValor(n2);
+		tab.getTabuleiro()[0][2].setValor(n3);
+		
+		//Verificação
+		Setor setor = tab.getSetorHorizontal(0);
+		Assert.assertNotNull(setor);
+		
+		//verifico cada linha
+		Numero[] linha = setor.getLinha(0);
+		Assert.assertEquals(9, linha.length);
+		Numero[] linha1 = setor.getLinha(1);
+		Assert.assertEquals(9, linha1.length);
+		Numero[] linha2 = setor.getLinha(2);
+		Assert.assertEquals(9, linha2.length);
+		
+		//passo cada linha para o verificaLinha
+		try{
+			new VerificaLinhaEColuna(linha);
+			new VerificaLinhaEColuna(linha1);
+			new VerificaLinhaEColuna(linha2);
+			
+			Assert.fail("A linha está incorreta e o verificador" +
+			"não está lançando exception!");
+		}catch(LinhaOuColunaInvalidaException ex){
+		}
+	}
+	
+	@Test
+	public void testVerificaGetColunaDoSetor(){
+		//Preparaçao
+		Tabuleiro tab = new Tabuleiro();
+		
+		//cria uma coluna
+		Numero[][] n1 = new Numero[3][3];		
+		n1[0][0] = Numero.UM;
+		n1[1][0] = Numero.DOIS;
+		n1[2][0] = Numero.TRES;
+
+		Numero[][] n2 = new Numero[3][3];		
+		n2[0][0] = Numero.QUATRO;
+		n2[1][0] = Numero.CINCO;
+		n2[2][0] = Numero.SEIS;
+
+		Numero[][] n3 = new Numero[3][3];		
+		n3[0][0] = Numero.SETE;
+		n3[1][0] = Numero.OITO;
+		n3[2][0] = Numero.NOVE;
+		tab.getTabuleiro()[0][0].setValor(n1);
+		tab.getTabuleiro()[1][0].setValor(n2);
+		tab.getTabuleiro()[2][0].setValor(n3);
+		
+		//Verificação
+		Setor setor = tab.getSetorVertical(0);
+		Assert.assertNotNull(setor);
+		
+		Numero[] coluna = setor.getColuna(0);
+		Assert.assertEquals(9, coluna.length);
+		
+		Assert.assertEquals(Numero.UM, coluna[0]);
+		Assert.assertEquals(Numero.DOIS, coluna[1]);
+		Assert.assertEquals(Numero.TRES, coluna[2]);
+		Assert.assertEquals(Numero.QUATRO, coluna[3]);
+		Assert.assertEquals(Numero.CINCO, coluna[4]);
+		Assert.assertEquals(Numero.SEIS, coluna[5]);
+		Assert.assertEquals(Numero.SETE, coluna[6]);
+		Assert.assertEquals(Numero.OITO, coluna[7]);
+		Assert.assertEquals(Numero.NOVE, coluna[8]);
+	}
+	
+	@Test
+	public void testVerificaColunaSetorComElementosCorretos(){
+		//Preparaçao
+		Tabuleiro tab = new Tabuleiro();
+		
+		//cria uma linha
+		Numero[][] n1 = new Numero[3][3];		
+		n1[0][0] = Numero.UM;
+		n1[1][0] = Numero.DOIS;
+		n1[2][0] = Numero.TRES;
+
+		Numero[][] n2 = new Numero[3][3];		
+		n2[0][0] = Numero.QUATRO;
+		n2[1][0] = Numero.CINCO;
+		n2[2][0] = Numero.SEIS;
+
+		Numero[][] n3 = new Numero[3][3];		
+		n3[0][0] = Numero.SETE;
+		n3[1][0] = Numero.OITO;
+		n3[2][0] = Numero.NOVE;
+		
+		tab.getTabuleiro()[0][0].setValor(n1);
+		tab.getTabuleiro()[1][0].setValor(n2);
+		tab.getTabuleiro()[2][0].setValor(n3);
+		
+		//Verificação
+		Setor setor = tab.getSetorVertical(0);
+		Assert.assertNotNull(setor);
+		
+		Numero[] coluna = setor.getColuna(0);
+		Assert.assertEquals(9, coluna.length);
+		
+		try{
+			new VerificaLinhaEColuna(coluna);
+			
+		}catch(LinhaOuColunaInvalidaException ex){
+			Assert.fail("A coluna está correta e o verificador" +
+						"está lançando exception!");
+		}
+	}
+	
+	@Test
+	public void testVerificaColunaSetorComElementosCorretosMaisBrancos(){
+		//Preparaçao
+		Tabuleiro tab = new Tabuleiro();
+		
+		//cria uma coluna
+		Numero[][] n1 = new Numero[3][3];		
+		n1[0][0] = Numero.UM;
+		n1[1][0] = Numero.DOIS;
+		n1[2][0] = Numero.BRANCO;
+
+		Numero[][] n2 = new Numero[3][3];		
+		n2[0][0] = Numero.QUATRO;
+		n2[1][0] = Numero.BRANCO;
+		n2[2][0] = Numero.SEIS;
+
+		Numero[][] n3 = new Numero[3][3];		
+		n3[0][0] = Numero.BRANCO;
+		n3[1][0] = Numero.OITO;
+		n3[2][0] = Numero.NOVE;
+		
+		tab.getTabuleiro()[0][0].setValor(n1);
+		tab.getTabuleiro()[1][0].setValor(n2);
+		tab.getTabuleiro()[2][0].setValor(n3);
+		
+		//Verificação
+		Setor setor = tab.getSetorVertical(0);
+		Assert.assertNotNull(setor);
+		
+		Numero[] coluna = setor.getColuna(0);
+		Assert.assertEquals(9, coluna.length);
+		
+		try{
+			new VerificaLinhaEColuna(coluna);
+			
+		}catch(LinhaOuColunaInvalidaException ex){
+			Assert.fail("A coluna está correta e o verificador" +
+						"está lançando exception!");
+		}
+	}
+	
+	@Test
+	public void testVerificaClasseDeVericacaoDeColunaLancandoException(){
+		//Preparaçao
+		Tabuleiro tab = new Tabuleiro();
+		
+		//cria uma linha
+		Numero[][] n1 = new Numero[3][3];		
+		n1[0][0] = Numero.UM;
+		n1[1][0] = Numero.DOIS;
+		n1[2][0] = Numero.BRANCO;
+
+		Numero[][] n2 = new Numero[3][3];		
+		n2[0][0] = Numero.QUATRO;
+		n2[1][0] = Numero.QUATRO;
+		n2[2][0] = Numero.SEIS;
+
+		Numero[][] n3 = new Numero[3][3];		
+		n3[0][0] = Numero.BRANCO;
+		n3[1][0] = Numero.NOVE;
+		n3[2][0] = Numero.NOVE;
+		tab.getTabuleiro()[0][0].setValor(n1);
+		tab.getTabuleiro()[1][0].setValor(n2);
+		tab.getTabuleiro()[2][0].setValor(n3);
+		
+		//Verificação
+		Setor setor = tab.getSetorHorizontal(0);
+		Assert.assertNotNull(setor);
+		
+		Numero[] coluna = setor.getLinha(0);
+		Assert.assertEquals(9, coluna.length);
+		
+		try{
+			new VerificaLinhaEColuna(coluna);
+			Assert.fail("A Coluna está incorreta");
+		}catch(LinhaOuColunaInvalidaException ex){
+		}
+	}
+	
+	@Test
+	public void verificaTodasAsColunasCorretasDeUmSetor(){
+		/*Teste apenas COPIADO... Ainda não está testando
+		o que queremos...*/
+		
+		//Preparaçao
+		Tabuleiro tab = new Tabuleiro();
+		
+		//criando quadrantes completos
+		Numero[][] n1 = new Numero[3][3];		
+		n1[0][0] = Numero.UM;
+		n1[0][1] = Numero.DOIS;
+		n1[0][2] = Numero.TRES;
+		n1[1][0] = Numero.QUATRO;
+		n1[1][1] = Numero.CINCO;
+		n1[1][2] = Numero.SEIS;
+		n1[2][0] = Numero.SETE;
+		n1[2][1] = Numero.OITO;
+		n1[2][2] = Numero.NOVE;
+		      
+		Numero[][] n2 = new Numero[3][3];		
+		n2[0][0] = Numero.QUATRO;
+		n2[0][1] = Numero.CINCO;
+		n2[0][2] = Numero.SEIS;
+		n2[1][0] = Numero.SETE;
+		n2[1][1] = Numero.OITO;
+		n2[1][2] = Numero.NOVE;
+		n2[2][0] = Numero.UM;
+		n2[2][1] = Numero.DOIS;
+		n2[2][2] = Numero.TRES;
+
+		Numero[][] n3 = new Numero[3][3];		
+		n3[0][0] = Numero.SETE;
+		n3[0][1] = Numero.OITO;
+		n3[0][2] = Numero.NOVE;
+		n3[1][0] = Numero.UM;
+		n3[1][1] = Numero.DOIS;
+		n3[1][2] = Numero.TRES;
+		n3[2][0] = Numero.QUATRO;
+		n3[2][1] = Numero.CINCO;
+		n3[2][2] = Numero.SEIS;
+		
+		tab.getTabuleiro()[0][0].setValor(n1);
+		tab.getTabuleiro()[0][1].setValor(n2);
+		tab.getTabuleiro()[0][2].setValor(n3);
+		
+		//Verificação
+		Setor setor = tab.getSetorVertical(0);
+		Assert.assertNotNull(setor);
+		
+		//verifico cada coluna
+		Numero[] linha = setor.getLinha(0);
+		Assert.assertEquals(9, linha.length);
+		Numero[] linha1 = setor.getLinha(1);
+		Assert.assertEquals(9, linha1.length);
+		Numero[] linha2 = setor.getLinha(2);
+		Assert.assertEquals(9, linha2.length);
+		
+		//passo cada linha para o verificaLinha
+		try{
+			new VerificaLinhaEColuna(linha);
+			new VerificaLinhaEColuna(linha1);
+			new VerificaLinhaEColuna(linha2);
+			
+		}catch(LinhaOuColunaInvalidaException ex){
 			Assert.fail("A linha está correta e o verificador" +
 						"está lançando exception!");
 		}
 	}
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
